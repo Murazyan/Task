@@ -24,6 +24,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class GCDServicesTest extends AbstractTestNGSpringContextTests {
 
+
     @TestConfiguration
     static class GCDServiceTestContextConfiguration {
 
