@@ -5,10 +5,12 @@ import com.example.task.model.NumbersData;
 import com.example.task.model.enums.ResponseStatus;
 import com.example.task.repository.NumbersDataRepository;
 import com.example.task.service.NumbersDataService;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@NoArgsConstructor
 public class NumbersDataSericeImpl implements NumbersDataService {
 
     private NumbersDataRepository numbersDataRepository;
