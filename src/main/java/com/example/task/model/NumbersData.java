@@ -1,17 +1,20 @@
 package com.example.task.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Data
 @Entity
 @Table(name = "numbers_data")
-public class NumbersData {
+public class NumbersData implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +25,7 @@ public class NumbersData {
 
     @Column(name = "second")
     private long second;
+
+    @Column
+    private long result;
 }
