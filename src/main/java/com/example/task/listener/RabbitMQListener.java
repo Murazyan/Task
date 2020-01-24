@@ -1,5 +1,9 @@
 package com.example.task.listener;
 
+import com.example.task.model.NumbersData;
+import com.example.task.service.GCDService;
+import com.example.task.service.NumbersDataService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -7,25 +11,24 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class RabbitMQListener {
 
-    @RabbitListener(queues = "gcd")
-    public void listen(@Payload String in,  @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String key) {
-        System.out.println("Message read from gcd : " + in+" , key = "+key);
+    private GCDService gcdService;
+    private NumbersDataService numbersDataService;
+
+
+    public RabbitMQListener(GCDService gcdService,
+                            NumbersDataService numbersDataService){
+        this.numbersDataService = numbersDataService;
+        this.gcdService = gcdService;
     }
 
-    @RabbitListener(queues = "gcd")
-    public void listen(@Payload long in,  @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String key) {
-        System.out.println("Message read from gcd : " + in+" , key = "+key);
-    }
-
-    @RabbitListener(queues = "gcd")
-    public void listen1( String in) {
-        System.out.println("Message read from gcd: : " + in);
-    }
-
-    @RabbitListener(queues = "gcd")
-    public void listen1( long in) {
-        System.out.println("Message read from gcd: : " + in);
+    @RabbitListener(queues = "gcd.queue")
+    public void rabbitListener(@Payload NumbersData numbersData){
+        long result = gcdService.calculateGCD(numbersData.getFirst(), numbersData.getSecond());
+        numbersData.setResult(result);
+        numbersDataService.save(numbersData);
+        log.info("new numbers data :"+numbersData);
     }
 }

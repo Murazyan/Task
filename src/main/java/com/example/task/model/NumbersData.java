@@ -23,4 +23,7 @@ public class NumbersData implements Serializable {
 
     @Column(name = "second")
     private long second;
+
+    @Column
+    private long result;
 }
