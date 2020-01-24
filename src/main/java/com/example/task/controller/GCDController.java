@@ -29,6 +29,7 @@ public class GCDController {
 
     @PostMapping("/calculate-gcd")
     public ResponseEntity calculate(@RequestBody NumbersData numbersData) throws InterruptedException {
+        System.out.println("caluclating");
         NumbersData data = numbersDataService.save(numbersData);
         rabbitTemplate.convertAndSend("gcd.exchange", "gcd.rout.key", data);
         return ResponseEntity.ok(ResponseId.builder()
@@ -36,7 +37,7 @@ public class GCDController {
                 .build());
     }
 
-    @GetMapping("get-result/{id}")
+    @GetMapping("/get-result/{id}")
     public ResponseEntity getGCDResult(@PathVariable("id") int id) {
         GCDResponse responseBody = numbersDataService.getResultById(id);
         HttpStatus httpStatus = HttpStatus.OK;
